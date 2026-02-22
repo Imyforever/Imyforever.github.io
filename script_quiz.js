@@ -35,7 +35,7 @@ function iniciarQuiz() {
 
 function mostrarPregunta() {
     clearInterval(cronometro);
-    tiempo = 10;
+    tiempo = 30;
     actualizarInterfaz();
 
     const p = preguntasSeleccionadas[indicePregunta];
