@@ -1,0 +1,70 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #0f0c29;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Empuja el footer al fondo */
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+h2 { color: white; margin-bottom: 30px; }
+
+.grid-temas {
+    display: grid;
+    /* Esto hace que se acomoden automáticamente en 2 columnas */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.tema-card {
+    padding: 20px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+/* Efecto Brillo superior */
+.tema-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 15%; width: 70%; height: 40%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
+    border-radius: 50px;
+}
+
+/* Colores dinámicos para los temas */
+.purple { border-bottom: 4px solid #845ec2; }
+.red    { border-bottom: 4px solid #ff4d6d; }
+.blue   { border-bottom: 4px solid #00c9a7; }
+.orange { border-bottom: 4px solid #ff9671; }
+
+.tema-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-volver {
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    padding: 10px 25px;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.btn-volver:hover { color: white; border-color: white; background: rgba(255,255,255,0.1); }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Embriología</title>
+    <link rel="stylesheet" href="style_quiz.css">
+</head>
+<body>
+
+    <div class="card-quiz">
+        <div class="header-info">
+            <span id="timer">Tiempo: 10s</span>
+            <span id="progress">Pregunta 1/10</span>
+        </div>
+
+        <div id="question-area">
+            <h2 id="pregunta-texto">Cargando...</h2>
+            
+            <div id="options-container">
+                </div>
+
+            <div id="open-answer-container" style="display: none;">
+                <input type="text" id="input-abierta" placeholder="Escribe tu respuesta...">
+                <button id="btn-enviar-abierta" class="btn-enviar">Enviar respuesta</button>
+            </div>
+        </div>
+
+        <div id="result-area" style="display: none;">
+            <h2>¡Terminaste!</h2>
+            <p id="puntaje-texto"></p>
+            <button onclick="window.location.href='temas.html'" class="btn-volver">Volver a Temas</button>
+        </div>
+
+        <div class="footer-spacer"></div>
+    </div>
+
+    <script src="script_quiz.js"></script>
+</body>
+</html>

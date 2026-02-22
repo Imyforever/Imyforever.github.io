@@ -1,0 +1,49 @@
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 25px;
+    text-align: center;
+    width: 350px;
+    height: 520px; /* Altura fija para que no cambie el tamaño */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+}
+
+h1 { color: #ff4d6d; margin: 0; }
+#mensaje-container { height: 60px; display: flex; align-items: center; justify-content: center; }
+#mensaje { color: #555; font-weight: bold; font-style: italic; }
+
+button {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button:hover { transform: scale(1.03); }
+
+.purple { background: #845ec2; }
+.blue   { background: #00c9a7; }
+.orange { background: #ff9671; }
+.grey   { background: #6c757d; }
+
+.rendirse-area { height: 60px; display: flex; justify-content: center; align-items: center; }
+#btnRendirse { width: 140px; font-size: 14px; }

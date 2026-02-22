@@ -2,23 +2,29 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title></title>
-    <link rel="stylesheet" href="style.css">
+    <title>Para mi canulita</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-
     <div class="card">
-        <h1>Para mi canulita</h1>
-        <p>Esta pagina es solo para ti, espero te ayude</p>
+        <div class="top-content">
+            <h1>Para mi canulita</h1>
+            <p>Esta página es solo para ti</p>
+            
+        </div>
+        <div class="button-group">
+            <button id="btnTemas" class="blue" onclick="window.location.href='temas.html'">📚 Mis Temas</button>
+            <button id="btnMusica" class="orange">Ser médico</button>
+            <button id="btnMotivacion" class="purple">Motivación</button>
+            <div id="mensaje-container">
+                <p id="mensaje"></p>
+            </div>
+        </div>
 
-        <button id="btnMotivacion">Motivación</button>
-        <p id="mensaje"></p>
-
-        <button id="btnRendirse">Rendirse</button>
-
-        <button id="btnMusica">Ser medico</button>
+        <div class="rendirse-area">
+            <button id="btnRendirse" class="grey">Rendirse</button>
+        </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
