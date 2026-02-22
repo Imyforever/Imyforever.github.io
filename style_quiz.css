@@ -1,4 +1,4 @@
-
+/* --- ESTILO IGUAL AL INDEX --- */
 body {
     margin: 0;
     height: 100vh;
@@ -11,40 +11,52 @@ body {
 
 .card-quiz {
     background: white;
-    padding: 30px;
+    padding: 25px;
     border-radius: 25px;
     text-align: center;
     width: 350px;
-    height: 520px; 
+    height: 550px; /* Un poquito más alta para que quepa todo bien */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    box-sizing: border-box;
 }
 
-h2 { color: #ff4d6d; margin: 0; font-size: 1.4rem; }
-
-.header-info {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 10px;
+/* --- ÁREA DE RETROALIMENTACIÓN (EL SECRETO DEL ORDEN) --- */
+#repaso-container {
+    text-align: left;
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 10px 0;
+    max-height: 220px; /* Altura máxima para que no crezca la tarjeta */
+    overflow-y: auto;  /* Activa el scroll si hay muchas preguntas */
+    border: 1px solid #eee;
+    box-sizing: border-box;
 }
 
-#timer { color: #ff4d6d; }
+/* Personalizar la barrita de scroll para que se vea bonita */
+#repaso-container::-webkit-scrollbar {
+    width: 6px;
+}
+#repaso-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+h2 { color: #ff4d6d; margin: 0; font-size: 1.3rem; }
 
 #pregunta-texto {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: #333;
-    height: 80px; 
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 10px;
 }
 
+/* Botones con el estilo del index */
 button {
     width: 100%;
     padding: 12px;
@@ -58,12 +70,11 @@ button {
     transition: transform 0.2s;
 }
 
-button:hover { transform: scale(1.02); filter: brightness(1.1); }
-
 .opcion-btn { background: #845ec2; }
-.btn-enviar { background: #00c9a7; } 
-.btn-volver { background: #ff9671; } 
+.btn-enviar { background: #00c9a7; }
+.btn-volver { background: #ff9671; }
 
+button:hover { transform: scale(1.02); }
 
 #input-abierta {
     width: 100%;
@@ -73,42 +84,5 @@ button:hover { transform: scale(1.02); filter: brightness(1.1); }
     outline: none;
     margin-bottom: 10px;
     text-align: center;
-}
-
-#input-abierta:focus { border-color: #00c9a7; }
-
-#puntaje-texto {
-    font-size: 1.2rem;
-    color: #555;
-    margin: 20px 0;
-}
-#open-answer-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    width: 100%;
-    gap: 10px; 
-}
-
-#input-abierta {
-    width: 90%; 
-    padding: 14px;
-    border: 2px solid #eee;
-    border-radius: 15px;
-    outline: none;
-    text-align: center; 
-    font-size: 16px;
-    font-family: inherit;
-    transition: border-color 0.3s;
     box-sizing: border-box;
-}
-
-#input-abierta:focus {
-    border-color: #845ec2;
-    background-color: #fcfcfc;
-}
-
-#btn-enviar-abierta {
-    width: 70%; 
-    margin: 0 auto; 
 }
