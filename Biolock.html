@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioLock | Redefiniendo la Identidad Digital</title>
+    <style>
+        :root {
+            --blue-light: #0466C8;
+            --blue-medium: #023E7D;
+            --blue-dark: #001845;
+            --white: #ffffff;
+            --accent: #00f2ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: var(--blue-dark);
+            color: var(--white);
+            line-height: 1.6;
+        }
+
+        /* Header con Logo */
+        .header {
+            padding: 4rem 2rem;
+            background: linear-gradient(180deg, var(--blue-medium) 0%, var(--blue-dark) 100%);
+            text-align: center;
+        }
+
+        .logo-box {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            border: 2px dashed var(--blue-light); /* Espacio para tu logo */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .logo-box img {
+            max-width: 80%;
+            height: auto;
+        }
+
+        h1 { font-size: 2.8rem; letter-spacing: 5px; margin: 0; font-weight: 800; }
+        .subtitle { color: var(--blue-light); text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
+
+        /* Intro - Frase potente de tu Slide 10 */
+        .intro-quote {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            font-size: 1.2rem;
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            text-align: left;
+        }
+
+        /* Grid de Cards (Slides 1-7) */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--blue-medium);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            border-color: var(--blue-light);
+            background: rgba(4, 102, 200, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .card-tag {
+            font-size: 0.7rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .card h3 { margin: 0 0 1rem; font-size: 1.5rem; color: var(--white); }
+        .card p { font-size: 0.95rem; color: #ccc; margin-bottom: 1.5rem; }
+
+        .stat-highlight {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--blue-light);
+            margin-top: auto;
+        }
+
+        /* Monitor Animado */
+        .bio-aura-monitor {
+            background: #000;
+            padding: 10px;
+            border-radius: 10px;
+            font-family: monospace;
+            color: var(--accent);
+            font-size: 0.8rem;
+            border: 1px solid #1a1a1a;
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            opacity: 0.6;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo-box">
+            <img src="BioLock.png" alt="Logo">
+        </div>
+        <h1>BIOLOCK</h1>
+        <p class="subtitle">Digital Authenticator</p>
+    </header>
+    <div class="intro-quote">
+        "La identidad no es un evento — es una condición que debe verificarse constantemente."
+    </div>
+
+    <main class="container">
+        
+        <div class="card">
+            <div class="card-tag">La Brecha Actual</div>
+            <h3>Contraseñas vs Realidad</h3>
+            <p>En 2018, el sistema de Singapur cayó. No falló la IA, falló una contraseña. Hoy, un ataque ocurre cada 39 segundos.</p>
+            <div class="stat-highlight">1.5M+</div>
+            <p>Archivos médicos robados.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-tag">Nuestra Innovación</div>
+            <h3>BioAura: Identidad Viva</h3>
+            <p>Convertimos tu ritmo cardíaco y oxigenación en una llave digital dinámica e imposible de falsificar.</p>
+            <div class="bio-aura-monitor">
+                > SCANNING BIO-AURA...<br>
+                > PATTERN: STABLE<br>
+                > STATUS: <span id="status">ENCRYPTED</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-tag">Oportunidad Estratégica</div>
+            <h3>Enfoque: Yucatán</h3>
+            <p>Iniciamos en un mercado local cercano a los 525 MDP, enfocados en hospitales e instituciones financieras.</p>
+            <div class="stat-highlight">0.1%</div>
+            <p>Meta inicial: 40 clientes corporativos.</p>
+        </div>
+
+    </main>
+
+    <section style="text-align: center; padding: 2rem;">
+        <h2 style="color: var(--accent);">"El cuerpo humano es la contraseña más segura."</h2>
+    </section>
+
+    <footer>
+        SEGURIDAD • BIOMETRÍA • TOKENS <br>
+        Prototipo BioLock 2024 - Basado en datos reales de Smartwatch
+    </footer>
+
+    <script>
+        // Animación de status para la BioAura
+        const statusEl = document.getElementById('status');
+        const statuses = ['ENCRYPTED', 'VALIDATING', 'SECURE', 'ACTIVE'];
+        let i = 0;
+        setInterval(() => {
+            statusEl.innerText = statuses[i];
+            i = (i + 1) % statuses.length;
+        }, 2000);
+    </script>
+
+</body>
+</html>
