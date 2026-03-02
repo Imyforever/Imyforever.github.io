@@ -125,3 +125,16 @@ btnRendirse.addEventListener("click", (e) => {
 document.getElementById("btnMusica").addEventListener("click", () => {
     window.open("https://www.youtube.com/watch?v=I5-k8Z1G0HM", "_blank");
 });
+function abrirModal() {
+    document.getElementById("modalImagen").style.display = "flex";
+}
+
+function cerrarModal() {
+    document.getElementById("modalImagen").style.display = "none";
+}
+window.onclick = function(event) {
+    let modal = document.getElementById("modalImagen");
+    if (event.target == modal) {
+        cerrarModal();
+    }
+}
