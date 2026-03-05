@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Sistemas Operativos</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+        .card-quiz {
+            background: white;
+            padding: 30px;
+            border-radius: 25px;
+            text-align: center;
+            width: 100%;
+            max-width: 380px;
+            height: auto; 
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            box-sizing: border-box;
+        }
+
+        h2 {
+            color: #ff4d6d;
+            margin: 0 0 15px 0;
+            font-size: 1.5rem;
+        }
+
+        #info-max {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .config-group {
+            margin-bottom: 20px;
+        }
+
+        #options-container {
+            display: grid;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        input[type="number"] {
+            width: 80px;
+            padding: 10px;
+            border: 2px solid #845ec2;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .opcion-btn {
+            background: #845ec2;
+        }
+
+        .btn-enviar {
+            background: #00c9a7;
+        }
+
+        .btn-volver {
+            background: #2a84d3;
+        }
+
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #845ec2;
+            font-size: 0.9rem;
+        }
+
+        #pregunta-texto {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            line-height: 1.4;
+            margin: 10px 0;
+            text-align: left;
+        }
+
+        #repaso-container {
+            text-align: left;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+            max-height: 250px; 
+            overflow-y: auto;
+            border: 1px solid #eeeeee;
+        }
+
+        #repaso-container div {
+            font-size: 0.85rem;
+            line-height: 1.3;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        #repaso-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        #repaso-container::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-quiz">
+        <div id="config-area">
+            <h2>Sistemas operativos</h2>
+            <p id="info-max">Cargando preguntas...</p>
+            
+            <div class="config-group">
+                <label for="num-preguntas">Preguntas a responder:</label>
+                <input type="number" id="num-preguntas" value="10" min="5">
+            </div>
+            
+            <div class="button-group">
+                <button onclick="prepararQuiz()" class="btn-enviar">¡Empezar!</button>
+            </div>
+        </div>
+
+        <div id="game-area" style="display: none;">
+            <div class="header-info">
+                <span id="timer">30s</span>
+                <span id="progress">1/10</span>
+            </div>
+            <div id="pregunta-texto">Cargando...</div>
+            <div id="options-container"></div>
+        </div>
+
+        <div id="result-area" style="display: none;">
+            <h2>Resultados</h2>
+            <p id="puntaje-texto" style="font-weight: bold; font-size: 1.2rem;"></p>
+            <div id="repaso-container"></div>
+            <div class="button-group">
+                <button onclick="location.reload()" class="btn-volver">Reiniciar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let historial = []; 
+        const bancoPreguntas = [
+            // --- TEMA 1: FUNDAMENTOS Y ARQUITECTURA ---
+            { tipo: 'cerrada', q: "¿Qué son hechos puros y aislados sin contexto?", opciones: ["Información", "Datos", "Conocimiento", "Metadatos"], correcta: "Datos" },
+            { tipo: 'cerrada', q: "La agregación de estructura y significado a los datos se define como:", opciones: ["Conocimiento", "Sabiduría", "Información", "Modelado"], correcta: "Información" },
+            { tipo: 'cerrada', q: "¿Qué permite el conocimiento según la guía?", opciones: ["Almacenar datos", "Toma de decisiones y acciones", "Crear tablas", "Programar en SQL"], correcta: "Toma de decisiones y acciones" },
+            { tipo: 'cerrada', q: "¿Cuál es una consecuencia de un mal modelado de datos en los negocios?", opciones: ["Ahorro de costos", "Inventario fantasma", "Exceso de velocidad", "Mejoras en la UI"], correcta: "Inventario fantasma" },
+            { tipo: 'cerrada', q: "Software diseñado para definir, almacenar, consultar y proteger datos:", opciones: ["Sistema Operativo", "SGBD", "Navegador", "Compilador"], correcta: "SGBD" },
+            { tipo: 'cerrada', q: "¿Qué característica define a los modelos jerárquicos antiguos?", opciones: ["Eran flexibles", "Eran rígidos y dependientes del camino de navegación", "Usaban SQL", "No tenían filas"], correcta: "Eran rígidos y dependientes del camino de navegación" },
+            { tipo: 'cerrada', q: "¿Qué separación introdujo E.F. Codd con el Modelo Relacional?", opciones: ["Hardware y Software", "Lógica (qué se pide) y Física (cómo se busca)", "Frontend y Backend", "Usuario y Kernel"], correcta: "Lógica (qué se pide) y Física (cómo se busca)" },
+            { tipo: 'cerrada', q: "En el modelo relacional, las 'relaciones' son:", opciones: ["Cables", "Tablas", "Columnas", "Tuplas"], correcta: "Tablas" },
+            { tipo: 'cerrada', q: "¿Cuál es el lenguaje declarativo del modelo relacional?", opciones: ["Java", "C++", "SQL", "Python"], correcta: "SQL" },
+            { tipo: 'cerrada', q: "¿Qué ventaja principal ofrece NoSQL?", opciones: ["Consistencia estricta", "Escalado horizontal masivo (Big Data)", "Esquemas rígidos", "Uso de tablas"], correcta: "Escalado horizontal masivo (Big Data)" },
+            { tipo: 'cerrada', q: "¿Qué buscan unificar los sistemas híbridos (Lakehouse/HTAP)?", opciones: ["Windows y Linux", "Transacciones (OLTP) y Análisis (OLAP)", "RAM y Disco", "CPU y GPU"], correcta: "Transacciones (OLTP) y Análisis (OLAP)" },
+            { tipo: 'cerrada', q: "La propiedad ACID 'Atomicidad' significa:", opciones: ["La operación es rápida", "Se ejecuta completa o no se ejecuta nada", "Los datos son pequeños", "El sistema es seguro"], correcta: "Se ejecuta completa o no se ejecuta nada" },
+            { tipo: 'cerrada', q: "La propiedad ACID que asegura que los cambios sobrevivan a fallos es:", opciones: ["Aislamiento", "Consistencia", "Durabilidad", "Atomicidad"], correcta: "Durabilidad" },
+            { tipo: 'cerrada', q: "La propiedad ACID 'Consistencia' asegura que:", opciones: ["Los datos nunca cambian", "La base de datos pasa de un estado válido a otro válido", "Solo un usuario entra a la vez", "El sistema no se apaga"], correcta: "La base de datos pasa de un estado válido a otro válido" },
+            { tipo: 'cerrada', q: "El 'Aislamiento' (Isolation) en ACID garantiza que:", opciones: ["La base de datos esté en la nube", "Operaciones concurrentes no interfieran entre sí", "No haya virus", "Los datos estén cifrados"], correcta: "Operaciones concurrentes no interfieran entre sí" },
+
+            // --- TEMA 2: DISEÑO Y NORMALIZACIÓN ---
+            { tipo: 'cerrada', q: "¿Para qué sirve la Normalización?", opciones: ["Para hacer el disco más grande", "Para eliminar redundancias y anomalías", "Para borrar datos", "Para usar NoSQL"], correcta: "Para eliminar redundancias y anomalías" },
+            { tipo: 'cerrada', q: "La 1NF (Primera Forma Normal) exige que:", opciones: ["Haya tablas", "Todo atributo sea atómico (sin listas)", "Haya claves foráneas", "Los datos sean números"], correcta: "Todo atributo sea atómico (sin listas)" },
+            { tipo: 'cerrada', q: "La 2NF (Segunda Forma Normal) requiere que los atributos dependan de:", opciones: ["Cualquier columna", "La Clave Primaria por completo", "Una tabla externa", "El usuario"], correcta: "La Clave Primaria por completo" },
+            { tipo: 'cerrada', q: "La 3NF (Tercera Forma Normal) prohíbe las:", opciones: ["Tablas", "Dependencias transitivas", "Claves primarias", "Filas vacías"], correcta: "Dependencias transitivas" },
+            { tipo: 'cerrada', q: "¿Qué significan las siglas DDL?", opciones: ["Data Digital List", "Data Definition Language", "Data Design Logic", "Digital Data Language"], correcta: "Data Definition Language" },
+            { tipo: 'cerrada', q: "¿Cuál es un comando típico de DDL?", opciones: ["INSERT", "UPDATE", "CREATE TABLE", "COMMIT"], correcta: "CREATE TABLE" },
+            { tipo: 'cerrada', q: "La restricción CHECK sirve para:", opciones: ["Pagar la cuenta", "Validar que el dato cumpla una condición", "Unir tablas", "Crear alias"], correcta: "Validar que el dato cumpla una condición" },
+            { tipo: 'cerrada', q: "Las siglas DML significan:", opciones: ["Data Manipulation Language", "Data Management Logic", "Digital Model List", "Data Main Language"], correcta: "Data Manipulation Language" },
+            { tipo: 'cerrada', q: "¿Qué comando DML se usa para eliminar datos de una tabla?", opciones: ["DROP", "DELETE", "REMOVE", "ALTER"], correcta: "DELETE" },
+            { tipo: 'cerrada', q: "El comando TCL 'ROLLBACK' sirve para:", opciones: ["Guardar cambios", "Deshacer cambios ante un error", "Borrar la tabla", "Reiniciar el SGBD"], correcta: "Deshacer cambios ante un error" },
+
+            // --- TEMA 3: SELECT, FILTRADO Y ORDENACIÓN ---
+            { tipo: 'cerrada', q: "¿Por qué es peligroso usar SELECT * en producción?", opciones: ["Es ilegal", "Es frágil y costoso en rendimiento", "No muestra nulos", "Solo funciona en Oracle"], correcta: "Es frágil y costoso en rendimiento" },
+            { tipo: 'cerrada', q: "El uso de Alias (AS) es vital para:", opciones: ["Borrar datos", "Desambiguar columnas homónimas en Joins", "Crear tablas", "Cifrar la base de datos"], correcta: "Desambiguar columnas homónimas en Joins" },
+            { tipo: 'cerrada', q: "DISTINCT no debe usarse para:", opciones: ["Filas únicas", "Enmascarar problemas de mal modelado o uniones erróneas", "Consultar datos", "Ver categorías"], correcta: "Enmascarar problemas de mal modelado o uniones erróneas" },
+            { tipo: 'cerrada', q: "¿Cuándo evalúa el WHERE las condiciones?", opciones: ["Después de ordenar", "Fila por fila antes de agrupar", "Al final del reporte", "Solo en el JOIN"], correcta: "Fila por fila antes de agrupar" },
+            { tipo: 'cerrada', q: "La precedencia nativa de los operadores booleanos es:", opciones: ["AND > OR > NOT", "NOT > AND > OR", "OR > NOT > AND", "Igual para todos"], correcta: "NOT > AND > OR" },
+            { tipo: 'cerrada', q: "¿Qué operador busca coincidencias dentro de una lista finita?", opciones: ["BETWEEN", "LIKE", "IN", "IS"], correcta: "IN" },
+            { tipo: 'cerrada', q: "En un LIKE, ¿qué símbolo representa un solo carácter?", opciones: ["%", "_", "*", "?"], correcta: "_" },
+            { tipo: 'cerrada', q: "¿Qué representa el valor NULL en una base de datos?", opciones: ["Cero", "Vacío", "Desconocido o ausente", "Error"], correcta: "Desconocido o ausente" },
+            { tipo: 'cerrada', q: "¿Cuál es la forma correcta de preguntar si una columna es nula?", opciones: ["columna = NULL", "columna IS NULL", "columna != NULL", "columna NULL"], correcta: "columna IS NULL" },
+            { tipo: 'cerrada', q: "¿Qué sucede si no se incluye la cláusula ORDER BY?", opciones: ["Da error", "El motor no promete ningún orden", "Se ordena por ID", "Se ordena por fecha"], correcta: "El motor no promete ningún orden" },
+            { tipo: 'cerrada', q: "Un 'Ranking estable' se logra:", opciones: ["Usando DISTINCT", "Añadiendo una segunda columna de desempate (ej. PK)", "Ordenando por fecha", "Usando TOP"], correcta: "Añadiendo una segunda columna de desempate (ej. PK)" },
+            { tipo: 'cerrada', q: "¿Qué motor soporta nativamente NULLS FIRST / NULLS LAST?", opciones: ["SQL Server", "PostgreSQL", "MySQL", "Excel"], correcta: "PostgreSQL" },
+            { tipo: 'cerrada', q: "¿Cuál es el orden lógico de ejecución inicial de una consulta?", opciones: ["SELECT -> FROM", "FROM -> WHERE", "WHERE -> FROM", "SELECT -> WHERE"], correcta: "FROM -> WHERE" },
+            { tipo: 'cerrada', q: "¿En qué paso de la ejecución lógica se calculan los alias?", opciones: ["FROM", "WHERE", "SELECT", "ORDER BY"], correcta: "SELECT" },
+            { tipo: 'cerrada', q: "¿Cuál es el último paso en la ejecución lógica de un query?", opciones: ["ORDER BY", "SELECT", "LIMIT / TOP", "HAVING"], correcta: "LIMIT / TOP" },
+
+            // --- TEMA 4: FUNCIONES DE FILA ---
+            { tipo: 'cerrada', q: "¿Qué función se usa para formato Proper-Case (Mayúscula inicial)?", opciones: ["UPPER", "LOWER", "INITCAP", "REPLACE"], correcta: "INITCAP" },
+            { tipo: 'cerrada', q: "La SARGability se pierde si:", opciones: ["Usas un JOIN", "Aplicas funciones a columnas dentro del WHERE", "Usas alias", "No pones punto y coma"], correcta: "Aplicas funciones a columnas dentro del WHERE" },
+            { tipo: 'cerrada', q: "¿Qué hace la función TRUNC en números?", opciones: ["Redondea al más cercano", "Corta los decimales sin redondear", "Suma decimales", "Convierte a texto"], correcta: "Corta los decimales sin redondear" },
+            { tipo: 'cerrada', q: "Para extraer el residuo matemático se usa:", opciones: ["AVG", "SUM", "MOD / %", "DIV"], correcta: "MOD / %" },
+            { tipo: 'cerrada', q: "¿Por qué no se deben guardar fechas como VARCHAR?", opciones: ["Ocupa más espacio", "Impide la aritmética de fechas", "SQL no lo permite", "Se borran solas"], correcta: "Impide la aritmética de fechas" },
+            { tipo: 'cerrada', q: "¿Cuál es el atajo de casteo para fechas en Postgres?", opciones: ["TO_DATE", "CAST", "::DATE", "CONVERT"], correcta: "::DATE" },
+            { tipo: 'cerrada', q: "¿Qué sucede al sumar Salario + NULL?", opciones: ["Da el salario", "Da 0", "Da NULL", "Da error"], correcta: "Da NULL" },
+            { tipo: 'cerrada', q: "COALESCE es la mejor práctica para nulos porque:", opciones: ["Es estándar ANSI y portable", "Es más rápida que NVL", "Solo existe en Postgres", "Borra los nulos"], correcta: "Es estándar ANSI y portable" },
+
+            // --- TEMA 5: RELACIONES Y JOINS ---
+            { tipo: 'cerrada', q: "¿Qué Join genera un producto cartesiano?", opciones: ["INNER JOIN", "CROSS JOIN", "LEFT JOIN", "FULL JOIN"], correcta: "CROSS JOIN" },
+            { tipo: 'cerrada', q: "Si unes 10 filas contra 10 filas en un CROSS JOIN, obtienes:", opciones: ["10 filas", "20 filas", "100 filas", "0 filas"], correcta: "100 filas" },
+            { tipo: 'cerrada', q: "El INNER JOIN une filas basándose en:", opciones: ["La suerte", "La coincidencia de PK y FK", "El orden de inserción", "Los nombres"], correcta: "La coincidencia de PK y FK" },
+            { tipo: 'cerrada', q: "Un LEFT JOIN devuelve todas las filas de:", opciones: ["Ambas tablas", "La tabla derecha", "La tabla izquierda", "Ninguna"], correcta: "La tabla izquierda" },
+            { tipo: 'cerrada', q: "En un Outer Join, si no hay correspondencia, los huecos se rellenan con:", opciones: ["Ceros", "Espacios", "NULL", "Error"], correcta: "NULL" },
+            { tipo: 'cerrada', q: "La regla ON vs WHERE dice que en el ON se coloca:", opciones: ["Filtros de negocio", "Relación estructural", "Ordenación", "Alias"], correcta: "Relación estructural" },
+            { tipo: 'cerrada', q: "Un SELF JOIN se usa para representar:", opciones: ["Tablas diferentes", "Cadenas de mando o jerarquías en la misma tabla", "Borrado de datos", "Cruce de nulos"], correcta: "Cadenas de mando o jerarquías en la misma tabla" },
+            { tipo: 'cerrada', q: "Para recorrer árboles jerárquicos, Postgres y SQL Server usan:", opciones: ["START WITH", "CTE Recursivas (WITH RECURSIVE)", "INNER JOIN simple", "SELECT *"], correcta: "CTE Recursivas (WITH RECURSIVE)" },
+
+            // --- TEMA 6: FUNCIONES DE GRUPO ---
+            { tipo: 'cerrada', q: "¿Qué hacen las funciones de grupo con los valores NULL?", opciones: ["Los cuentan como 0", "Los ignoran en los cálculos", "Dan error", "Detienen la consulta"], correcta: "Los ignoran en los cálculos" },
+            { tipo: 'cerrada', q: "COUNT(*) cuenta:", opciones: ["Solo filas con datos", "Cantidad total de filas incluyendo nulos", "Solo claves primarias", "Solo nulos"], correcta: "Cantidad total de filas incluyendo nulos" },
+            { tipo: 'cerrada', q: "COUNT(columna) cuenta:", opciones: ["Todo", "Solo registros donde la columna NO es nula", "Solo nulos", "Solo duplicados"], correcta: "Solo registros donde la columna NO es nula" },
+            { tipo: 'cerrada', q: "La forma correcta de calcular la 'Tasa de completitud' es:", opciones: ["COUNT(*) / 100", "COUNT(col) / COUNT(*)", "SUM(col) / 10", "MAX(col) / MIN(col)"], correcta: "COUNT(col) / COUNT(*)" },
+            { tipo: 'cerrada', q: "Regla estricta del GROUP BY:", opciones: ["Solo una columna", "Toda columna en SELECT sin función agregada debe estar en el GROUP BY", "Debe ir antes del WHERE", "Solo para números"], correcta: "Toda columna en SELECT sin función agregada debe estar en el GROUP BY" },
+            { tipo: 'cerrada', q: "¿Por qué agrupar por nombres de texto es mala idea?", opciones: ["Es muy lento", "Puede haber colisiones o nombres repetidos", "SQL no deja", "Es ilegal"], correcta: "Puede haber colisiones o nombres repetidos" },
+            { tipo: 'cerrada', q: "¿Cuál es la diferencia entre HAVING y WHERE?", opciones: ["No hay diferencia", "WHERE filtra filas, HAVING filtra grupos", "HAVING filtra filas, WHERE grupos", "WHERE es más rápido"], correcta: "WHERE filtra filas, HAVING filtra grupos" },
+            { tipo: 'cerrada', q: "¿Se puede poner una función agregada (ej. AVG) en el WHERE?", opciones: ["Sí", "No, da error de sintaxis", "Solo en Oracle", "Solo con alias"], correcta: "No, da error de sintaxis" },
+
+            // --- TEMA 7: SUBCONSULTAS ---
+            { tipo: 'cerrada', q: "Una subconsulta correlacionada se evalúa:", opciones: ["Una sola vez", "Repetidamente fila por fila", "Solo al final", "Nunca"], correcta: "Repetidamente fila por fila" },
+            { tipo: 'cerrada', q: "Las Inline Views son subconsultas colocadas en el:", opciones: ["SELECT", "FROM", "WHERE", "ORDER BY"], correcta: "FROM" },
+            { tipo: 'cerrada', q: "Una subconsulta escalar debe devolver:", opciones: ["Una tabla", "Una columna y varias filas", "Una única columna y una sola fila", "Solo números"], correcta: "Una única columna y una sola fila" },
+            { tipo: 'cerrada', q: "Si una subconsulta de una fila devuelve 2 filas:", opciones: ["SQL elige una", "Da error", "Muestra ambas", "Devuelve NULL"], correcta: "Da error" },
+            { tipo: 'cerrada', q: "EXISTS es superior en rendimiento porque:", opciones: ["No extrae la data, solo evalúa si hay al menos una fila", "Es más nuevo", "Solo funciona en la nube", "Usa menos RAM"], correcta: "No extrae la data, solo evalúa si hay al menos una fila" },
+            { tipo: 'cerrada', q: "El operador ALL es verdadero si la condición se cumple con:", opciones: ["Al menos uno", "Absolutamente todos los valores devueltos", "Ninguno", "El máximo"], correcta: "Absolutamente todos los valores devueltos" },
+            { tipo: 'cerrada', q: "El 'Peligro del Anti-Join' ocurre al usar NOT IN con:", opciones: ["Muchos datos", "Valores NULL en la subconsulta", "Núcleos de CPU", "Alias"], correcta: "Valores NULL en la subconsulta" },
+            { tipo: 'cerrada', q: "Mejor práctica para buscar ausencias:", opciones: ["NOT IN", "NOT EXISTS", "DISTINCT", "ORDER BY"], correcta: "NOT EXISTS" },
+
+            // --- TEMA: DML (INSERT, UPDATE, DELETE) ---
+            { tipo: 'cerrada', q: "Para insertar filas es obligatorio especificar las columnas para:", opciones: ["Ir más rápido", "Asegurar compatibilidad con restricciones y orden", "No es obligatorio", "Usar alias"], correcta: "Asegurar compatibilidad con restricciones y orden" },
+            { tipo: 'cerrada', q: "¿Cuándo se aplican los valores DEFAULT?", opciones: ["Siempre", "Cuando omites la columna o usas la palabra DEFAULT", "Solo en nulos", "Nunca"], correcta: "Cuando omites la columna o usas la palabra DEFAULT" },
+            { tipo: 'cerrada', q: "Sintaxis para cargas masivas o migraciones:", opciones: ["INSERT...ALL", "INSERT...SELECT", "SELECT...INTO", "COPY...TAB"], correcta: "INSERT...SELECT" },
+            { tipo: 'cerrada', q: "Filosofía de inserción: Cada INSERT es:", opciones: ["Una prueba", "Una promesa de que el dato entra con verdad y honra el modelo", "Un gasto de disco", "Un registro temporal"], correcta: "Una promesa de que el dato entra con verdad y honra el modelo" },
+            { tipo: 'cerrada', q: "Ejecutar UPDATE y DELETE exige el uso preciso de:", opciones: ["Alias", "Cláusulas WHERE alineadas a claves", "Muchas columnas", "Uniones"], correcta: "Cláusulas WHERE alineadas a claves" },
+            { tipo: 'cerrada', q: "¿Qué es un 'Soft Delete'?", opciones: ["Borrar la base de datos", "Agregar una columna de estado para preservar historia", "Borrar datos pequeños", "Vaciar la papelera"], correcta: "Agregar una columna de estado para preservar historia" },
+            { tipo: 'cerrada', q: "Para evitar bloqueos prolongados en borrados masivos:", opciones: ["No usar WHERE", "Procesar mediante lotes (TOP/LIMIT)", "Apagar el servidor", "Usar CROSS JOIN"], correcta: "Procesar mediante lotes (TOP/LIMIT)" },
+            { tipo: 'cerrada', q: "Regla de Oro antes de un UPDATE o DELETE:", opciones: ["Hacer un commit rápido", "Realizar un SELECT con el mismo WHERE exacto", "Reiniciar el servicio", "Borrar los índices"], correcta: "Realizar un SELECT con el mismo WHERE exacto" },
+
+            // --- REPASO Y CONCEPTOS EXTRA ---
+            { tipo: 'cerrada', q: "¿Cuál es el lenguaje para definir restricciones de integridad?", opciones: ["DML", "DDL", "TCL", "DCL"], correcta: "DDL" },
+            { tipo: 'cerrada', q: "¿Qué propiedad ACID evita cobrar dos veces si hay un corte de energía?", opciones: ["Atomicidad", "Durabilidad", "Aislamiento", "Consistencia"], correcta: "Atomicidad" },
+            { tipo: 'cerrada', q: "1NF prohíbe:", opciones: ["Números", "Valores no atómicos (listas en una celda)", "Nombres largos", "Tablas"], correcta: "Valores no atómicos (listas en una celda)" },
+            { tipo: 'cerrada', q: "SQL Server es usualmente:", opciones: ["Case-sensitive", "Case-insensitive por defecto", "Solo para Linux", "No relacional"], correcta: "Case-insensitive por defecto" },
+            { tipo: 'cerrada', q: "INSTR o CHARINDEX sirven para:", opciones: ["Sumar", "Encontrar la posición de un carácter", "Borrar texto", "Contar filas"], correcta: "Encontrar la posición de un carácter" },
+            { tipo: 'cerrada', q: "¿Qué hace 'LPAD'?", opciones: ["Limpia espacios", "Rellena caracteres a la izquierda", "Corta texto", "Cifra datos"], correcta: "Rellena caracteres a la izquierda" },
+            { tipo: 'cerrada', q: "Un JOIN que no tiene condición ON resulta en:", opciones: ["INNER JOIN", "CROSS JOIN", "Error", "LEFT JOIN"], correcta: "CROSS JOIN" },
+            { tipo: 'cerrada', q: "La pseudocolumna LEVEL se usa en jerarquías de:", opciones: ["Postgres", "Oracle", "SQL Server", "MySQL"], correcta: "Oracle" },
+            { tipo: 'cerrada', q: "Toda transacción termina con:", opciones: ["SELECT", "COMMIT o ROLLBACK", "DELETE", "JOIN"], correcta: "COMMIT o ROLLBACK" },
+            { tipo: 'cerrada', q: "La cardinalidad correcta en GROUP BY sugiere usar:", opciones: ["Nombres", "Claves Primarias (IDs)", "Fechas", "Alias"], correcta: "Claves Primarias (IDs)" },
+            { tipo: 'cerrada', q: "ANY es verdadero si:", opciones: ["Todos cumplen", "Al menos uno cumple la condición", "Ninguno cumple", "Es nulo"], correcta: "Al menos uno cumple la condición" },
+            { tipo: 'cerrada', q: "Un 'huérfano' en base de datos se detecta mejor con:", opciones: ["IN", "NOT EXISTS", "JOIN", "SUM"], correcta: "NOT EXISTS" },
+            { tipo: 'cerrada', q: "La cláusula HAVING se lee:", opciones: ["Antes del WHERE", "Después del GROUP BY", "Antes del FROM", "En el INSERT"], correcta: "Después del GROUP BY" },
+            { tipo: 'cerrada', q: "SELECT DISTINCT nombre, apellido evalúa:", opciones: ["Solo el nombre", "Solo el apellido", "La combinación única de ambos", "Nada"], correcta: "La combinación única de ambos" },
+            { tipo: 'cerrada', q: "El operador LIKE 'A%' busca:", opciones: ["Cualquier cosa con A", "Textos que empiezan con A", "Textos que terminan con A", "Solo la letra A"], correcta: "Textos que empiezan con A" },
+            { tipo: 'cerrada', q: "En SQL, 1 + NULL es igual a:", opciones: ["1", "0", "NULL", "Error"], correcta: "NULL" },
+            { tipo: 'cerrada', q: "La integridad referencial se mantiene con:", opciones: ["PRIMARY KEY", "FOREIGN KEY", "UNIQUE", "NOT NULL"], correcta: "FOREIGN KEY" },
+            { tipo: 'cerrada', q: "Un esquema rígido es propio de:", opciones: ["NoSQL", "Bases de datos relacionales", "Excel", "Big Data"], correcta: "Bases de datos relacionales" },
+            { tipo: 'cerrada', q: "¿Qué comando DDL borra toda la estructura de la tabla?", opciones: ["DELETE", "TRUNCATE", "DROP TABLE", "REMOVE"], correcta: "DROP TABLE" },
+            { tipo: 'cerrada', q: "El modelo de red se caracteriza por ser:", opciones: ["Flexible", "Rígido", "Basado en tablas", "Moderno"], correcta: "Rígido" },
+            { tipo: 'cerrada', q: "Un Lakehouse es una arquitectura:", opciones: ["Solo para RAM", "Híbrida", "Antigua", "Solo para archivos"], correcta: "Híbrida" },
+            { tipo: 'cerrada', q: "La normalización evita anomalías de:", opciones: ["Hardware", "Inserción, modificación y borrado", "Red", "Energía"], correcta: "Inserción, modificación y borrado" }
+        ];
+        let preguntasSeleccionadas = [];
+        let indicePregunta = 0;
+        let buenas = 0;
+        let tiempo = 30;
+        let cronometro;
+        let cantidadDeseada = 10;
+
+        window.onload = () => {
+            document.getElementById('info-max').innerText = `Disponibles: ${bancoPreguntas.length}`;
+        };
+
+        function shuffle(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        function prepararQuiz() {
+            let input = document.getElementById('num-preguntas');
+            let valor = parseInt(input.value);
+            if (isNaN(valor) || valor < 5) { alert("Mínimo 5"); return; }
+            cantidadDeseada = Math.min(valor, bancoPreguntas.length);
+            iniciarQuiz();
+        }
+
+        function iniciarQuiz() {
+            preguntasSeleccionadas = shuffle([...bancoPreguntas]).slice(0, cantidadDeseada);
+            indicePregunta = 0; buenas = 0; historial = [];
+            document.getElementById('config-area').style.display = 'none';
+            document.getElementById('game-area').style.display = 'block';
+            document.getElementById('result-area').style.display = 'none';
+            mostrarPregunta();
+        }
+
+        function mostrarPregunta() {
+            clearInterval(cronometro);
+            tiempo = 30;
+            actualizarInterfaz();
+            
+            const p = preguntasSeleccionadas[indicePregunta];
+            document.getElementById('pregunta-texto').innerText = p.q;
+            
+            const optionsCont = document.getElementById('options-container');
+            optionsCont.innerHTML = '';
+            
+            shuffle([...p.opciones]).forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'opcion-btn';
+                btn.innerText = opt;
+                btn.onclick = () => validarRespuesta(opt);
+                optionsCont.appendChild(btn);
+            });
+            iniciarTimer();
+        }
+
+        function iniciarTimer() {
+            cronometro = setInterval(() => {
+                tiempo--;
+                document.getElementById('timer').innerText = `${tiempo}s`;
+                if (tiempo <= 0) validarRespuesta("Tiempo agotado");
+            }, 1000);
+        }
+
+        function validarRespuesta(resp) {
+            clearInterval(cronometro);
+            const p = preguntasSeleccionadas[indicePregunta];
+            const ok = (resp === p.correcta);
+            if (ok) buenas++;
+            historial.push({ q: p.q, c: p.correcta, ok: ok, r: resp });
+            
+            indicePregunta++;
+            if (indicePregunta < cantidadDeseada) mostrarPregunta();
+            else finalizarQuiz();
+        }
+
+        function finalizarQuiz() {
+            document.getElementById('game-area').style.display = 'none';
+            document.getElementById('result-area').style.display = 'block';
+            document.getElementById('puntaje-texto').innerText = `Puntaje: ${buenas} / ${cantidadDeseada}`;
+            
+            const repaso = document.getElementById('repaso-container');
+            repaso.innerHTML = historial.map((item, i) => `
+                <div>
+                    <strong>${i+1}. ${item.ok ? '✅' : '❌'}</strong> ${item.q}<br>
+                    <small>Tu respuesta: ${item.r}</small><br>
+                    ${!item.ok ? `<small style="color:green">Correcta: ${item.c}</small>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function actualizarInterfaz() {
+            document.getElementById('timer').innerText = `${tiempo}s`;
+            document.getElementById('progress').innerText = `${indicePregunta + 1}/${cantidadDeseada}`;
+        }
+    </script>
+</body>
+</html>
