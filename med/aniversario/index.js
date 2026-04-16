@@ -21,3 +21,4 @@ const countdownInterval = setInterval(() => {
         document.getElementById("unlocked-message").classList.remove("hidden");
     }
 }, 1000);
+        document.getElementById("unlocked-message").classList.remove("hidden");
