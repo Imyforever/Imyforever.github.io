@@ -1,4 +1,4 @@
-const targetDate = new Date(2026, 3, 16, 14, 0, 0).getTime();
+const targetDate = new Date(2027, 3, 16, 14, 0, 0).getTime();
 
 const countdownInterval = setInterval(() => {
     const now = new Date().getTime();
@@ -21,4 +21,3 @@ const countdownInterval = setInterval(() => {
         document.getElementById("unlocked-message").classList.remove("hidden");
     }
 }, 1000);
-        document.getElementById("unlocked-message").classList.remove("hidden");
