@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuponeras para Bambina</title>
+    <link rel="stylesheet" href="cupones.css">
+</head>
+<body>
+    <header>
+        <h1>🎟️ Cuponera Especial para Bambina 🌹</h1>
+        <p>Haz clic en cualquier cupón para canjearlo. ¡Úsalos sabiamente!</p>
+    </header>
+
+    <div class="footer">
+        <a href="index.html" class="btn-volver">← Volver al inicio</a>
+    </div>
+    <!-- <button id="btn-reset-pruebas" style="margin-top: 10px; padding: 5px 10px; background: #64748b; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        🔄 Reiniciar Cupones (Pruebas)
+    </button> -->
+    <main class="container">
+        <!-- SECCIÓN: ANTOJOS Y POSTRES -->
+        <section class="cuponera-section">
+            <h2>🍪 Cuponera 1: Antojos & Postres</h2>
+            <div class="grid-cupones" id="cuponera-postres">
+                <!-- Los cupones se generarán dinámicamente con JS -->
+            </div>
+        </section>
+
+        <!-- SECCIÓN: DATES Y AVENTURAS -->
+        <section class="cuponera-section">
+            <h2>✨ Cuponera 2: Dates & Aventuras</h2>
+            <div class="grid-cupones" id="cuponera-dates"></div>
+        </section>
+    </main>
+
+    <!-- Modal de confirmación de canje -->
+    <div id="modal-canje" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" id="close-modal">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="cupones.js"></script>
+</body>
+</html>

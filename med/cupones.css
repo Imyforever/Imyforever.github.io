@@ -1,0 +1,200 @@
+:root {
+    --bg-color: #fff5f5;
+    --card-bg: #ffffff;
+    --primary-pink: #ff7597;
+    --dark-pink: #e05374;
+    --text-color: #4a3b32;
+    --border-color: #ffd1dc;
+    --used-bg: #e2e8f0;
+    --used-text: #94a3b8;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    color: var(--dark-pink);
+    margin-bottom: 5px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.cuponera-section {
+    margin-bottom: 50px;
+}
+
+.cuponera-section h2 {
+    color: var(--dark-pink);
+    border-bottom: 2px dashed var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.grid-cupones {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Tarjeta de Cupón */
+.cupon-card {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.cupon-card:hover:not(.usado) {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(255, 117, 151, 0.2);
+}
+
+/* Línea punteada simulando boleto */
+.cupon-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 50px;
+    width: 100%;
+    border-bottom: 2px dashed var(--border-color);
+}
+
+.cupon-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cupon-id {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--primary-pink);
+    background: #ffeef2;
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+
+.cupon-card h3 {
+    margin: 10px 0;
+    font-size: 1.2rem;
+    color: var(--dark-pink);
+}
+
+.cupon-card p {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 40px; /* Espacio para la línea punteada */
+}
+
+.cupon-footer {
+    text-align: right;
+    font-weight: bold;
+    color: var(--primary-pink);
+    font-size: 0.9rem;
+}
+
+/* Estado Usado */
+.cupon-card.usado {
+    background-color: var(--used-bg);
+    border-color: #cbd5e1;
+    cursor: not-allowed;
+}
+
+.cupon-card.usado h3, 
+.cupon-card.usado p, 
+.cupon-card.usado .cupon-footer,
+.cupon-card.usado .cupon-id {
+    color: var(--used-text);
+    background: transparent;
+}
+
+.cupon-card.usado::after {
+    content: 'CANJEADO';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    font-size: 2rem;
+    font-weight: bold;
+    color: rgba(224, 83, 116, 0.15);
+    border: 4px solid rgba(224, 83, 116, 0.15);
+    padding: 5px 15px;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #94a3b8;
+}
+
+.modal-btn-confirm {
+    background-color: var(--primary-pink);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background 0.2s;
+}
+
+.modal-btn-confirm:hover {
+    background-color: var(--dark-pink);
+}

@@ -1,36 +1,37 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Para mi canulita</title>
-    <link rel="stylesheet" href="index.css">
-</head>
-<body>
-    <button id="btnSecreto" class="invisible-btn" onclick="abrirModal()"></button>
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Para mi canulita</title>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <button id="btnSecreto" class="invisible-btn" onclick="abrirModal()"></button>
 
-    <div id="modalImagen" class="modal">
-        <span class="cerrar" onclick="cerrarModal()">&times;</span>
-        <img class="modal-contenido" src="easteregg.png" alt="Secreto">
-    </div>
-    <div class="card">
-        <div class="top-content">
-            <h1>Para mi canulita</h1>
-            <p>Esta página es solo para ti</p>
-            
+        <div id="modalImagen" class="modal">
+            <span class="cerrar" onclick="cerrarModal()">&times;</span>
+            <img class="modal-contenido" src="easteregg.png" alt="Secreto">
         </div>
-        <div class="button-group">
-            <button id="btnTemas" class="blue" onclick="window.location.href='temas.html'">📚 Mis Temas</button>
-            <button id="btnMusica" class="orange">Ser médico</button>
-            <button id="btnMotivacion" class="purple">Motivación</button>
-            <div id="mensaje-container">
-                <p id="mensaje"></p>
+        <div class="card">
+            <div class="top-content">
+                <h1>Para mi canulita</h1>
+                <p>Esta página es solo para ti</p>
+                
+            </div>
+            <div class="button-group">
+                <button id="btnTemas" class="blue" onclick="window.location.href='temas.html'">📚 Mis Temas</button>
+                <button id="btnMusica" class="orange">Ser médico</button>
+                <button id="btnMotivacion" class="purple">Motivación</button>
+                <button id="btnMotivacion" class="green" onclick="window.location.href='cupones.html'"">Cupones</button>
+                <div id="mensaje-container">
+                    <p id="mensaje"></p>
+                </div>
+            </div>
+
+            <div class="rendirse-area">
+                <button id="btnRendirse" class="grey">Rendirse</button>
             </div>
         </div>
-
-        <div class="rendirse-area">
-            <button id="btnRendirse" class="grey">Rendirse</button>
-        </div>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>
+        <script src="script.js"></script>
+    </body>
+    </html>
