@@ -88,6 +88,7 @@ const cuponesDates = [
     { id: "37", titulo: "Tarde de Repostería Competitiva 🧁", desc: "Compramos panquecitos listos y competimos por ver quién decora el más bonito o el más gracioso." },
     { id: "38", titulo: "Date de Cafetería Temática 🐈", desc: "Vamos a una cafetería fuera de lo común a pasar la tarde." },
     { id: "40", titulo: "El Comodín Supremo de Aventuras 👑", desc: "Canjeable por cualquier cita loca, viaje corto o plan extravagante que se te ocurra de la nada. Yo lo hago realidad." }
+    { id: "41", titulo: "Las flores coloridas 🌹", desc: "Canjeable para una date pintando clavelitos"}
 ];
 
 // Inicializar contenedores
